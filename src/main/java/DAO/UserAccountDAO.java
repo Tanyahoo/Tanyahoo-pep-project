@@ -13,12 +13,13 @@ public class UserAccountDAO {
 // creating a new Account, not containing an account_id
 // @param user an object modelling a new account.
 
-public Account createAccount (Account user){
+    public Account createAccount (Account user){
         Connection connection = ConnectionUtil.getConnection();
         try {
          // inserting sql logic with the username and password column, so that the database may
          //automatically generate a primary key.
             String sql = "INSERT into account(username, password) values (?, ?)" ;
+            // make connection with sql query and when ready, return the ID generated automatically in the database
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             //setting param for username by accessing the Account class's getter method for username
@@ -31,9 +32,9 @@ public Account createAccount (Account user){
             // returning the account object information via primary key
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
             if(pkeyResultSet.next()){
-                // return the newly inserted account by accessing it via primary key ID
+                // return the newly inserted int ID number
                 int generated_author_id = (int) pkeyResultSet.getLong(1);
-                // new Account object with filled params
+                // new Account object with filled params 
                 return new Account(generated_author_id, user.getUsername(), user.getPassword());
             }
         }catch(SQLException e){
@@ -44,8 +45,39 @@ public Account createAccount (Account user){
 
 
 
+    // verify user login by using both username and password
+    // @param username and password to check the login verification
+    public Account getAccountByUsernameAndPassword(String username, String password){
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+             // setting the 1st sql query param for username
+             preparedStatement.setString(1, username);
+             // setting the 2nd sql query param for password
+             preparedStatement.setString(2, password);
+             // run our query and return account object matching username and password
+             ResultSet resultSet = preparedStatement.executeQuery();
+
+             if (resultSet.next()){
+
+             }
 
 
+
+
+
+
+
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
 
 
 
