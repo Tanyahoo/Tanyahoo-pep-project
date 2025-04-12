@@ -22,7 +22,7 @@ public class UserAccountDAO {
             // make connection with sql query and when ready, return the ID generated automatically in the database
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            //setting param for username by accessing the Account class's getter method for username
+            //setting sql param for username by accessing the Account class's getter method for username
             preparedStatement.setString(1, user.getUsername());
             // setting param for password by using Account class's getter method for accessing password
             preparedStatement.setString(2, user.getPassword());
@@ -32,7 +32,7 @@ public class UserAccountDAO {
             // returning the account object information via primary key
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
             if(pkeyResultSet.next()){
-                // return the newly inserted int ID number
+                // return the newly inserted int ID number - primary key
                 int generated_author_id = (int) pkeyResultSet.getLong(1);
                 // new Account object with filled params 
                 return new Account(generated_author_id, user.getUsername(), user.getPassword());
@@ -42,6 +42,8 @@ public class UserAccountDAO {
         }
         return null;
     }
+
+
 
 
 
@@ -59,25 +61,25 @@ public class UserAccountDAO {
              // setting the 2nd sql query param for password
              preparedStatement.setString(2, password);
              // run our query and return account object matching username and password
-             ResultSet resultSet = preparedStatement.executeQuery();
-
-             if (resultSet.next()){
-
+             ResultSet rs = preparedStatement.executeQuery();
+            // if the query returns a matching record from the databse table...
+             if (rs.next()){
+                // ..it populates a new Account object with the data and returns the Account object
+                 Account acc = new Account(
+                    rs.getInt("account_id"),
+                    rs.getString("username"), 
+                    rs.getString("password"));
+                 return acc;
              }
-
-
-
-
-
-
-
-            
+ 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
+        // otherwise it returns no object if no matching params are found in table
         return null;
     }
+
+
 
 
 
