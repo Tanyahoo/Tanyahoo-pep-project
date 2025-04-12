@@ -1,17 +1,17 @@
- package DAO;
- import Model.Account;
- import Model.Message;
+package DAO;
+import Model.Account;
+import Model.Message;
 import Util.ConnectionUtil;
 
 import java.sql.*;
- import java.util.*;
+import java.util.*;
  
 
- public class MessageDAO {
+public class MessageDAO {
 
 
     // adding a message into the database which matches the values contained in the message object.
-// @param msg an object modelling a new message.
+    // @param msg an object modelling a new message.
 
     public Message createMessage (Message msg){
         Connection connection = ConnectionUtil.getConnection();
@@ -46,8 +46,31 @@ import java.sql.*;
     }
 
 
+    // retrieve all messages from the message table.
+    //@return all messages.
 
-
+    public List<Message> getAllMessages(){
+        Connection connection = ConnectionUtil.getConnection();
+        List<Message> msgs = new ArrayList<>();
+        try {
+            // sql query to retrieve all messages from message table
+            String sql = "SELECT * FROM message;";
+            // pass in sql statement
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                Message mess = new Message(
+                    rs.getInt("message_id"), 
+                    rs.getInt("posted_by"),
+                    rs.getString("message_text"), 
+                    rs.getInt("time_posted_epoch"));
+                msgs.add(mess);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return msgs;
+    }
 
 
 
