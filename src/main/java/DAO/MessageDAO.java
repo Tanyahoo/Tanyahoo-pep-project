@@ -10,7 +10,7 @@ import java.util.*;
 public class MessageDAO {
 
 
-    // adding a message into the database which matches the values contained in the message object.
+    // this method adds a message into the database which matches the values contained in the message object.
     // @param msg an object modelling a new message.
 
     public Message createMessage (Message msg){
@@ -44,6 +44,8 @@ public class MessageDAO {
         }
         return null;
     }
+
+
 
 
     // this method retrieves all messages from the message table.
@@ -110,6 +112,35 @@ public class MessageDAO {
         return null;
     }
 
+
+
+
+    // this method deletes a message by identifying the message via its ID
+    // @param id a message ID
+    public int deleteMessageById(int id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            // sql query selecting all messages using their message id
+            String sql = "DELETE FROM message WHERE message_id = ?;";
+            // pass sql to preparedStatement
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            
+            // passing sql param of id
+            preparedStatement.setInt(1, id);
+
+            // run query, assign response int to check number of rows affected
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // return number of rows affected ie messages deleted
+            return rowsAffected;
+            
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        // if no message deleted, return zero
+        return 0;
+    }
 
 
 
