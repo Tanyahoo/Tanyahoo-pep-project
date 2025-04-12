@@ -146,6 +146,37 @@ public class MessageDAO {
 
 
 
+    // this method updates a message by identifying the message via its ID
+    // @param id a message ID, m message object
+    public int updateMessageById(int id, Message m){
+        Connection connection = ConnectionUtil.getConnection();
+       
+        try {
+            // sql query selecting all messages using their message id
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
+            // pass sql to preparedStatement
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            // set our sql params with text via getter in Message class
+            preparedStatement.setString(1, m.getMessage_text());
+            // passing sql param of id 
+            preparedStatement.setInt(2, id);
+
+            // run query, assign response to an int to check number of rows affected
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // return number of rows affected ie messages updated
+            return rowsAffected;
+            
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        // if no message rows updated, return zero
+        return 0;
+    }
+
+
+
 
 
 
