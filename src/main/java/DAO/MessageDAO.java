@@ -46,7 +46,7 @@ public class MessageDAO {
     }
 
 
-    // retrieve all messages from the message table.
+    // this method retrieves all messages from the message table.
     //@return all messages.
 
     public List<Message> getAllMessages(){
@@ -74,6 +74,41 @@ public class MessageDAO {
 
 
 
+
+
+
+    // ths method retrieves a specific message using its message ID.
+    //@param id a message ID.
+    public Message getMessageById(int id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            // sql query selecting all messages using their message id
+            String sql = "SELECT * FROM message WHERE message_id = ?;";
+            // pass sql to preparedStatement
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            
+            // passing sql param of id
+            preparedStatement.setInt(1, id);
+
+            // run query, assign response to ResultSet
+            ResultSet rs = preparedStatement.executeQuery();
+            // if there is a message to return from query
+            if(rs.next()){
+                // create new message object and assign values retrieved from table
+                Message mess = new Message(
+                    rs.getInt("message_id"), 
+                    rs.getInt("posted_by"),
+                    rs.getString("message_text"),
+                    rs.getLong("time_posted_epoch"));
+                // return the message object
+                return mess;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        // if no returned object, return null
+        return null;
+    }
 
 
 

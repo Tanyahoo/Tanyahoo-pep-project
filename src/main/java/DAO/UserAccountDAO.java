@@ -27,7 +27,7 @@ public class UserAccountDAO {
             // setting param for password by using Account class's getter method for accessing password
             preparedStatement.setString(2, user.getPassword());
             
-
+            // run query
             preparedStatement.executeUpdate();
             // returning the account object information via primary key
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
