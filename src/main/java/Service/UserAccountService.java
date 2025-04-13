@@ -6,11 +6,12 @@ import Model.*;
 
 public class UserAccountService {
 
-    private UserAccountDAO userDao;
+    // instance variable of type UserAccountDAO
+    private UserAccountDAO accDao;
 
     // no args constructor for creating a new UserAccountService with a new UserAccountDAO
     public UserAccountService(){
-        userDao = new UserAccountDAO();
+        accDao = new UserAccountDAO();
     }
 
 
@@ -38,14 +39,15 @@ public class UserAccountService {
          }
 
          // check if there's an account created with the username
-         Account existing = userDao.getAccountByUsername(user);
+         Account existing = accDao.getAccountByUsername(user);
 
          // if this account exists then the username is in use
         if (existing != null ){
             throw new IllegalArgumentException("Username already in use!");
             }
-
-        Account newAccount = userDao.createAccount(acc);
+        
+        // call the UserAccountDAO class method to create account
+        Account newAccount = accDao.createAccount(acc);
         // return account created with username and password that meet the requirements
         return newAccount;
     }
@@ -64,8 +66,8 @@ public class UserAccountService {
             throw new IllegalArgumentException("Username and password must not be null.");
         }
     
-        // call userDao method to check if account exists with matching username and password
-        Account acc = userDao.getAccountByUsernameAndPassword(username, password);
+        // call UserAccountDAO class method to check if account exists with matching username and password
+        Account acc = accDao.getAccountByUsernameAndPassword(username, password);
         // if account is null, return null
         if (acc == null) {
             return null;
