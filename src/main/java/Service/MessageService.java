@@ -19,27 +19,26 @@ public class MessageService {
 
 
 
+
+
      /**
      * method uses the MessageDAO class method to persist a message
      * meets conditions that message_text is not blank and is not over 255 chars
      * verfifies that user posted_by exists
      *
-     * @param author an author object.
-     * @return The persisted author if the persistence is successful.
+     * @param mess an message object.
+     * @return The persisted message if the persistence is successful.
      */
     public Message addMessage(Message mess) {
-
         // get message text
         String msgTxt = mess.getMessage_text();
         // get user id
         int user = mess.getPosted_by();
 
-
         // check if message is not empty or over 255 chars
         if (msgTxt == null || msgTxt.trim().isEmpty() || msgTxt.length() > 255) {
             throw new IllegalArgumentException("Message cannot empty or over 255 characters long!");
          }
-
 
         // check if user exists
         if (user == 0) {
@@ -53,6 +52,9 @@ public class MessageService {
 
 
 
+
+
+
     // method to get message using its id
     public Message getMessageByID(int id){
         // return message after calling MessageDAO class method
@@ -62,21 +64,16 @@ public class MessageService {
 
 
 
-    // method to get all messages
-    //@return all messages
-    public List<Message> getAllMessages() {
-        // call method in DAO class
-        return msgDao.getAllMessages();
-    }
 
 
     /* method to delete message by id
      * first checks if message exists
-     * 
+     * @return boolean value if message deleted
      */
     public boolean deleteMessage(int id){
         Message existingMessage = msgDao.getMessageById(id);
 
+        // check if message exists
         if (existingMessage == null) {
             throw new IllegalArgumentException("Message not found");
         }
@@ -86,15 +83,45 @@ public class MessageService {
         if (messageDeleted == 0){
             // if not return false
             return false;
-        }
-        
-        return true;
-        
+        }    
+        return true;  
     }
 
 
 
 
+
+    /* method to update message by id
+     * first checks if message exists
+     * @return message object that has been updated
+     */
+    public Message upDateMessageById(int id, Message m){
+        Message existingMessage = msgDao.getMessageById(id);
+
+        // check if message exists
+        if (existingMessage == null) {
+            throw new IllegalArgumentException("Message not found");
+        }
+
+        // call method to update message from DAO level
+        msgDao.updateMessageById(id, m);
+
+       // return the updated message
+        return msgDao.getMessageById(id);  
+    }
+
+
+
+    
+
+    /**
+     * method using MessageDAO to retrieve a List containing all messages
+     * @return all messages in the database
+     */
+     public List<Message> getAllMessages() {
+        // call method in DAO class
+        return msgDao.getAllMessages();
+     }
 
     
 }

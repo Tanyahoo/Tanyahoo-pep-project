@@ -175,7 +175,11 @@ public class MessageDAO {
         return 0;
     }
 
-     // this method retrieves all messages from the message table by a particular user
+
+
+
+
+    // this method retrieves all messages from the message table by a particular user
     //@return all messages from a user's ID
 
     public List<Message> getAllMessagesByUserId(int userId){
@@ -209,11 +213,5 @@ public class MessageDAO {
         // return array/list of messages
         return msgs;
     }
-
-
-
-
-
-
 
  }
