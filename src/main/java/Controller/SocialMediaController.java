@@ -38,8 +38,8 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         // calls postAccountHandler method on path /resgister
         app.post("/register", this::postAccountHandler);
-    
-        app.get("/login", this::getAccountWithBothUsernameAndPasswordHandler);
+        // calls method on login path
+        app.post("/login", this::loginHandler);
         //app.start(8080);
 
         return app;
@@ -75,16 +75,25 @@ public class SocialMediaController {
     }
 
      /**
-     * Handler to retrieve all flights departing from a particular city and arriving at another city.
-     * both cities are retrieved from the path. There is no need to change anything in this method.
-     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
-     *            be available to this method automatically thanks to the app.put method.
+     * 
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin, it will
+     *            be available to this method automatically thanks to the app.post method.
      */
-    private void getAccountWithBothUsernameAndPasswordHandler(Context ctx) {
-        ctx.json(accountService.login(ctx.pathParam("username"),
-                ctx.pathParam("password")));
+    private void loginHandler(Context ctx) {
+        // use context object to turn request body into account object
+        Account credentials = ctx.bodyAsClass(Account.class);
+        // accessing username and password from account object
+        String username = credentials.getUsername();
+        String password = credentials.getPassword();
+        // verifying the username and password
+        Account account = accountService.login(username, password);
+        if (account != null) {
+            // returning status
+            ctx.status(200).json(account); 
+        } else {
+            ctx.status(401); 
+        }
     }
-
 
 
 

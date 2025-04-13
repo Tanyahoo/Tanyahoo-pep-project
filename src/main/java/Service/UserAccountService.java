@@ -34,14 +34,12 @@ public class UserAccountService {
         return null;
         // throw new IllegalArgumentException("Invalid username or password.");
         }
-
         // Check for duplicate username
         Account existing = accDao.getAccountByUsername(user);
         if (existing != null) {
          return null;
         // throw new IllegalArgumentException("Username already in use!");
-        }
-        
+        } 
         // call the UserAccountDAO class method to create account
         Account newAccount = accDao.createAccount(acc);
         // return account created with username and password that meet the requirements
@@ -56,13 +54,20 @@ public class UserAccountService {
      *@return an account object if exists otherwise null
      */
 
-    public Account login(String username, String password) {
-        // check that neither params are null
-       // if (username == null || password == null) {
-          //return null;
-           // throw new IllegalArgumentException("Username and password must not be null.");
-       // }
+   /*  public Account login(String username, String password) {
+        // check that param meet conditions
+        if (username == null || username.trim().isEmpty() || password == null || password.length() < 4) {
+             
+          return null;
+        // throw new IllegalArgumentException("Username and password must not be null.");
+        }
     
+        Account correctPassword = accDao.getAccountByPassword(password);
+        Account correctUsername = accDao.getAccountByUsername(username);
+
+        if (correctPassword == correctUsername){
+            return accDao.getAccountByUsernameAndPassword(username,password);
+        }
         // call UserAccountDAO class method to check if account exists with matching username and password
         Account acc = accDao.getAccountByUsernameAndPassword(username, password);
         // if account is null, return null
@@ -72,6 +77,16 @@ public class UserAccountService {
         // if successful return Account object matching username and password
         return acc; 
     }
+*/
+public Account login(String username, String password) {
+    // Check that parameters meet conditions
+    if (username == null || username.trim().isEmpty() || password == null || password.length() < 4) {
+        return null;
+    }
+
+    // Call DAO to find account matching username and password
+    return accDao.getAccountByUsernameAndPassword(username, password);
+}
 
 
 }
