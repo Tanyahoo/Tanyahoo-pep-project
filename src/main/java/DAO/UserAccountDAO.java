@@ -116,6 +116,80 @@ public class UserAccountDAO {
 
 
 
+    // get account by using account username
+    // @param userName String username
+    public Account getAccountByUsername(String userName){
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "SELECT * FROM account WHERE username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+             // setting sql query param for account unsername
+             preparedStatement.setString(1, userName);
+             
+             // run our query and return account object matching username
+             ResultSet rs = preparedStatement.executeQuery();
+            // if the query returns a matching record from the databse table...
+             if (rs.next()){
+                // ..it populates a new Account object with the data and returns the Account object
+                 Account acc = new Account(
+                    rs.getInt("account_id"),
+                    rs.getString("username"), 
+                    rs.getString("password"));
+                 return acc;
+             }
+ 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        // otherwise it returns no object if no matching account username was found in table
+        return null;
+    }
+
+
+
+
+
+
+
+    // get account by using account password
+    // @param pass String password
+    public Account getAccountByPassword(String pass){
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "SELECT * FROM account WHERE password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+             // setting sql query param for account password
+             preparedStatement.setString(1, pass);
+             
+             // run our query and return account object matching password
+             ResultSet rs = preparedStatement.executeQuery();
+            // if the query returns a matching record from the databse table...
+             if (rs.next()){
+                // ..it populates a new Account object with the data and returns the Account object
+                 Account acc = new Account(
+                    rs.getInt("account_id"),
+                    rs.getString("username"), 
+                    rs.getString("password"));
+                 return acc;
+             }
+ 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        // otherwise it returns no object if no matching account password was found in table
+        return null;
+    }
+
+
+
+
+   
+      
+
 
 
 
