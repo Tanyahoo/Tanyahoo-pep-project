@@ -1,7 +1,14 @@
 package Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import DAO.*;
+import Model.*;
+import Service.*;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -16,7 +23,11 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
+       
+       // app.post("/register", this::postAccountHandle);
+        //app.post("/authors", this::postAuthorHandler);
+        //app.get("example-endpoint", this::exampleHandler);
+        app.start(8080);
 
         return app;
     }
@@ -28,6 +39,43 @@ public class SocialMediaController {
     private void exampleHandler(Context context) {
         context.json("sample text");
     }
+
+
+     /**
+     * Handler to post a new author.
+     * The Jackson ObjectMapper will automatically convert the JSON of the POST request into an Author object.
+     * If AuthorService returns a null author (meaning posting an Author was unsuccessful), the API will return a 400
+     * message (client error). There is no need to change anything in this method.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.post method.
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
+     */
+    private void postAccountHandle(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Author author = mapper.readValue(ctx.body(), Author.class);
+        Author addedAuthor = authorService.addAuthor(author);
+        if(addedAuthor!=null){
+            ctx.json(mapper.writeValueAsString(addedAuthor));
+        }else{
+            ctx.status(400);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

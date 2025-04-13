@@ -1,6 +1,6 @@
 package Service;
 
-import java.util.*;
+//import java.util.*;
 import DAO.*;
 import Model.*;
 
@@ -16,13 +16,14 @@ public class UserAccountService {
 
 
 
-    // method that uses UserAccountDAO to persist a new account to the database
-    // the registration will be successful if and only if the 
-    // username is not blank, 
-    // the password is at least 4 characters long, and an Account with that username does not already exist
+    /* method that uses UserAccountDAO to persist a new account to the database
+     *the registration will be successful if and only if the 
+     *username is not blank, 
+     *the password is at least 4 characters long, and an Account with that username does not already exist
 
-    // @param acc an Account object.
-    // @return account if it was successfully persisted, null if it was not successfully persisted
+     @param acc an Account object.
+     @return account if it was successfully persisted, null if it was not successfully persisted
+     */
 
     public Account createAccount( Account acc){
         String user = acc.getUsername();
@@ -52,9 +53,10 @@ public class UserAccountService {
 
 
 
-    // method checks if login is valid by checking if there's an account with matching login details
-    // it calls method from UserAccountDAO that checks in database table if matching account object exists
-    // @return an account object if exists otherwise null
+    /*method checks if login is valid by checking if there's an account with matching login details
+     *it calls method from UserAccountDAO that checks in database table if matching account object exists
+     *@return an account object if exists otherwise null
+     */
 
     public Account login(String username, String password) {
         // check that neither params are null
@@ -73,17 +75,7 @@ public class UserAccountService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    }
+}
 
 
 
