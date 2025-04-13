@@ -31,11 +31,13 @@ public class UserAccountService {
         String pass = acc.getPassword();
 
         // check username and password for conditions
-         if (user == null || user.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty!");
+         if (user != null || user.trim().isEmpty()) {
+            return null;
+            //throw new IllegalArgumentException("Username cannot be empty!");
          }
          if (pass == null || pass.length() < 4) {
-             throw new IllegalArgumentException("Password must be at least 4 characters long!");
+            return null;
+             //throw new IllegalArgumentException("Password must be at least 4 characters long!");
          }
 
          // check if there's an account created with the username
@@ -43,7 +45,8 @@ public class UserAccountService {
 
          // if this account exists then the username is in use
         if (existing != null ){
-            throw new IllegalArgumentException("Username already in use!");
+            return null;
+            //throw new IllegalArgumentException("Username already in use!");
             }
         
         // call the UserAccountDAO class method to create account
@@ -62,9 +65,10 @@ public class UserAccountService {
 
     public Account login(String username, String password) {
         // check that neither params are null
-        if (username == null || password == null) {
-            throw new IllegalArgumentException("Username and password must not be null.");
-        }
+       // if (username == null || password == null) {
+          //return null;
+           // throw new IllegalArgumentException("Username and password must not be null.");
+       // }
     
         // call UserAccountDAO class method to check if account exists with matching username and password
         Account acc = accDao.getAccountByUsernameAndPassword(username, password);

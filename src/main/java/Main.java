@@ -1,4 +1,5 @@
 import Controller.SocialMediaController;
+import Service.UserAccountService;
 import io.javalin.Javalin;
 
 /**
@@ -7,8 +8,12 @@ import io.javalin.Javalin;
  */
 public class Main {
     public static void main(String[] args) {
-        SocialMediaController controller = new SocialMediaController();
-        Javalin app = controller.startAPI();
-        app.start(8080);
+
+        UserAccountService us = new UserAccountService();
+        us.createAccount(null);
+        //SocialMediaController controller = new SocialMediaController();
+       // Javalin app = controller.startAPI();
+       // app.start(8080);
+
     }
 }
