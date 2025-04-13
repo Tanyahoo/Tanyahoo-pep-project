@@ -29,25 +29,18 @@ public class UserAccountService {
     public Account createAccount( Account acc){
         String user = acc.getUsername();
         String pass = acc.getPassword();
+       // check conditions for password and username
+       if (user == null || user.trim().isEmpty() || pass == null || pass.length() < 4) {
+        return null;
+        // throw new IllegalArgumentException("Invalid username or password.");
+        }
 
-        // check username and password for conditions
-         if (user != null || user.trim().isEmpty()) {
-            return null;
-            //throw new IllegalArgumentException("Username cannot be empty!");
-         }
-         if (pass == null || pass.length() < 4) {
-            return null;
-             //throw new IllegalArgumentException("Password must be at least 4 characters long!");
-         }
-
-         // check if there's an account created with the username
-         Account existing = accDao.getAccountByUsername(user);
-
-         // if this account exists then the username is in use
-        if (existing != null ){
-            return null;
-            //throw new IllegalArgumentException("Username already in use!");
-            }
+        // Check for duplicate username
+        Account existing = accDao.getAccountByUsername(user);
+        if (existing != null) {
+         return null;
+        // throw new IllegalArgumentException("Username already in use!");
+        }
         
         // call the UserAccountDAO class method to create account
         Account newAccount = accDao.createAccount(acc);

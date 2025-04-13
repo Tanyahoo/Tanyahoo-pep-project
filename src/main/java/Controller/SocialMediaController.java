@@ -68,9 +68,9 @@ public class SocialMediaController {
         Account addedAccount = accountService.createAccount(account);
     
         if (addedAccount != null) {
-            ctx.status(200).json(addedAccount); // 201: resource successfully created
+            ctx.status(200).json(addedAccount); // 200: resource successfully created
         } else {
-            ctx.status(400).result("Account creation failed");
+            ctx.status(400);
         }
     }
 
