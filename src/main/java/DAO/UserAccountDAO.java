@@ -80,6 +80,37 @@ public class UserAccountDAO {
     }
 
 
+     // get account by using account ID
+    // @param userId 
+    public Account getAccountByAccountId(int userId){
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "SELECT * FROM account WHERE account_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+             // setting sql query param for account id
+             preparedStatement.setInt(1, userId);
+             
+             // run our query and return account object matching id
+             ResultSet rs = preparedStatement.executeQuery();
+            // if the query returns a matching record from the databse table...
+             if (rs.next()){
+                // ..it populates a new Account object with the data and returns the Account object
+                 Account acc = new Account(
+                    rs.getInt("account_id"),
+                    rs.getString("username"), 
+                    rs.getString("password"));
+                 return acc;
+             }
+ 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        // otherwise it returns no object if no matching account id was found in table
+        return null;
+    }
+
 
 
 

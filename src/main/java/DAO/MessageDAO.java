@@ -1,5 +1,4 @@
 package DAO;
-import Model.Account;
 import Model.Message;
 import Util.ConnectionUtil;
 
@@ -193,17 +192,21 @@ public class MessageDAO {
 
             // run query and get values, assign to ResultSet
             ResultSet rs = preparedStatement.executeQuery();
+            // wheil there are values...
             while(rs.next()){
+                //.. create new message object and populate with retrieved values
                 Message mess = new Message(
                     rs.getInt("message_id"), 
                     rs.getInt("posted_by"),
                     rs.getString("message_text"), 
                     rs.getInt("time_posted_epoch"));
+                // add each message objects to array
                 msgs.add(mess);
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
+        // return array/list of messages
         return msgs;
     }
 
