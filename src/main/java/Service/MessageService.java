@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 import DAO.*;
 import Model.*;
 
@@ -51,9 +53,44 @@ public class MessageService {
 
 
 
+    // method to get message using its id
+    public Message getMessageByID(int id){
+        // return message after calling MessageDAO class method
+        return msgDao.getMessageById(id);
+    }
 
 
 
+
+    // method to get all messages
+    //@return all messages
+    public List<Message> getAllMessages() {
+        // call method in DAO class
+        return msgDao.getAllMessages();
+    }
+
+
+    /* method to delete message by id
+     * first checks if message exists
+     * 
+     */
+    public boolean deleteMessage(int id){
+        Message existingMessage = msgDao.getMessageById(id);
+
+        if (existingMessage == null) {
+            throw new IllegalArgumentException("Message not found");
+        }
+        
+        // check if message is deleted
+        int messageDeleted = msgDao.deleteMessageById(id);
+        if (messageDeleted == 0){
+            // if not return false
+            return false;
+        }
+        
+        return true;
+        
+    }
 
 
 
