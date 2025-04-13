@@ -79,8 +79,9 @@ public class MessageDAO {
 
 
 
-    // ths method retrieves a specific message using its message ID.
-    //@param id a message ID.
+    // ths method retrieves a specific message using its message ID
+    //@param id a message ID
+
     public Message getMessageById(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -173,6 +174,37 @@ public class MessageDAO {
         }
         // if no message rows updated, return zero
         return 0;
+    }
+
+     // this method retrieves all messages from the message table by a particular user
+    //@return all messages from a user's ID
+
+    public List<Message> getAllMessagesByUserId(int userId){
+        Connection connection = ConnectionUtil.getConnection();
+        List<Message> msgs = new ArrayList<>();
+        try {
+            // sql query to retrieve all messages from message table
+            String sql = "SELECT * FROM message WHERE posted_by = ?;";
+            // pass in sql statement
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // pass in param to sql for user id
+            preparedStatement.setInt(1, userId);
+
+            // run query and get values, assign to ResultSet
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                Message mess = new Message(
+                    rs.getInt("message_id"), 
+                    rs.getInt("posted_by"),
+                    rs.getString("message_text"), 
+                    rs.getInt("time_posted_epoch"));
+                msgs.add(mess);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return msgs;
     }
 
 
