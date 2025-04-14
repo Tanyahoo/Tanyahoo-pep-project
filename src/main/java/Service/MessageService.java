@@ -68,22 +68,20 @@ public class MessageService {
 
     /* method to delete message by id
      * first checks if message exists
-     * @return boolean value if message deleted
+     * @return message if deleted
      */
-    public boolean deleteMessage(int id){
+    public Message deleteMessage(int id) {
         Message existingMessage = msgDao.getMessageById(id);
-
-        // check if message exists
-        if (existingMessage == null) {
-            throw new IllegalArgumentException("Message not found");
+    
+        if (existingMessage != null) {
+            int deleted = msgDao.deleteMessageById(id);
+            if (deleted > 0) {
+                // return the deleted message
+                return existingMessage; 
+            }
         }
-        // check if message is deleted
-        int messageDeleted = msgDao.deleteMessageById(id);
-        if (messageDeleted == 0){
-            // if not return false
-            return false;
-        }    
-        return true;  
+        // no message found, or failed to delete
+        return null; 
     }
 
 
