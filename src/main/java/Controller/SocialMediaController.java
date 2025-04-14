@@ -6,18 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import DAO.*;
 import Model.*;
 import Service.*;
 
-/**
- * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
- * found in readme.md as well as the test cases. You should
- * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
- */
+
+ 
 public class SocialMediaController {
 
-
+    // instances of service classes
     UserAccountService accountService;
     MessageService messageService;
 
@@ -36,7 +32,7 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        // calls postAccountHandler method on path /resgister
+        
         app.post("/register", this::postAccountHandler);
         app.post("/login", this::loginHandler);
         app.post("/messages", this::createMessageHandler);
@@ -44,7 +40,7 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
         app.patch("/messages/{message_id}", this::updateMessageByIdHandler);
-        //app.get("accounts/{account_id}/messages", this::getAllMessagesByUserIdHandler);
+        app.get("accounts/{account_id}/messages", this::getAllMessagesByUserIdHandler);
         //app.start(8080);
 
         return app;
@@ -191,7 +187,10 @@ public class SocialMediaController {
      *            be available to this method automatically thanks to the app.put method.
      */
     private void getAllMessagesByUserIdHandler(Context ctx) {
-        ctx.json(messageService.getAllMessagesByUserId(ctx.pathParam("account_id")));
+        // gets a value from the URL path
+        int accountId = Integer.parseInt(ctx.pathParam("account_id"));
+        // call service layer to return all messages, then converted to json
+        ctx.json(messageService.getAllMessagesByUserId(accountId));
     }
 
 
