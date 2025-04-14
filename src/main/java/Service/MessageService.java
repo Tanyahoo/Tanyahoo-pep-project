@@ -89,17 +89,24 @@ public class MessageService {
 
 
     /* method to update message by id
-     * first checks if message exists
+     * first checks if message exists, checks conditions of updated message
      * @return message object that has been updated
      */
     public Message upDateMessageById(int id, Message m){
         Message existingMessage = msgDao.getMessageById(id);
-
+       
         // check if message exists
         if (existingMessage == null) {
-            throw new IllegalArgumentException("Message not found");
+            return null; 
+           // throw new IllegalArgumentException("Message not found");
         }
-        // call method to update message from DAO level
+        // check if updated message meets conditions
+        if (m.getMessage_text() == null || 
+        m.getMessage_text().trim().isEmpty() || 
+        m.getMessage_text().length() > 255) {
+        return null;
+    }
+        // call method to update message 
         msgDao.updateMessageById(id, m);
 
        // return the updated message

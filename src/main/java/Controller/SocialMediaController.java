@@ -43,6 +43,7 @@ public class SocialMediaController {
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
+        app.patch("/messages/{message_id}", this::updateMessageByIdHandler);
         //app.start(8080);
 
         return app;
@@ -160,6 +161,26 @@ public class SocialMediaController {
 
 
 
+
+     /**
+     * Handler to update a message
+     *
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void updateMessageByIdHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message updatedMessage = messageService.upDateMessageById(messageId, message);
+        System.out.println(updatedMessage);
+        if(updatedMessage == null){
+            ctx.status(400);
+        }else{
+            ctx.json(mapper.writeValueAsString(updatedMessage));
+        }
+
+    }
 
 
 
