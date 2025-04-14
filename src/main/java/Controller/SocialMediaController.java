@@ -103,9 +103,9 @@ public class SocialMediaController {
         Message addedMessage = messageService.addMessage(message);
         if(addedMessage == null){
             ctx.status(400);
-        }else{
-            ctx.json(mapper.writeValueAsString(addedMessage));
-        }
+            } else {
+                ctx.json(mapper.writeValueAsString(addedMessage));
+            }
     }
 
     
@@ -124,6 +124,7 @@ public class SocialMediaController {
 
 
 
+
     // Handler to receive message by its ID
 
     private void getMessageByIdHandler(Context ctx) throws JsonProcessingException {
@@ -135,8 +136,9 @@ public class SocialMediaController {
         }else{
             ctx.json(retrievedMessage);
         }
-
     }
+
+
 
 
 
@@ -176,8 +178,9 @@ public class SocialMediaController {
         }else{
             ctx.json(mapper.writeValueAsString(updatedMessage));
         }
-
     }
+
+
 
 
     /**
@@ -192,12 +195,5 @@ public class SocialMediaController {
         // call service layer to return all messages, then converted to json
         ctx.json(messageService.getAllMessagesByUserId(accountId));
     }
-
-
-
-
-
-
-
 
 }

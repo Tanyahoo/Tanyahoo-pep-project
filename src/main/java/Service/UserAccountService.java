@@ -1,13 +1,14 @@
 package Service;
 
-//import java.util.*;
 import DAO.*;
 import Model.*;
+
 
 public class UserAccountService {
 
     // instance variable of type UserAccountDAO
     private UserAccountDAO accDao;
+
 
     // no args constructor for creating a new UserAccountService with a new UserAccountDAO
     public UserAccountService(){
@@ -25,7 +26,6 @@ public class UserAccountService {
      @param acc an Account object.
      @return account if it was successfully persisted, null if it was not successfully persisted
      */
-
     public Account createAccount( Account acc){
         String user = acc.getUsername();
         String pass = acc.getPassword();
@@ -48,16 +48,18 @@ public class UserAccountService {
 
      
 
-    
-public Account login(String username, String password) {
-    // Check that parameters meet conditions
-    if (username == null || username.trim().isEmpty() || password == null || password.length() < 4) {
-        return null;
-    }
 
-    // Call DAO to find account matching username and password
-    return accDao.getAccountByUsernameAndPassword(username, password);
-}
+
+    // method to verify login details of account
+    //@return account is username and password are correct
+    public Account login(String username, String password) {
+        // Check that parameters meet conditions
+        if (username == null || username.trim().isEmpty() || password == null || password.length() < 4) {
+        return null;
+        }
+        // Call DAO to find account matching username and password
+        return accDao.getAccountByUsernameAndPassword(username, password);
+    }
 
 
 }

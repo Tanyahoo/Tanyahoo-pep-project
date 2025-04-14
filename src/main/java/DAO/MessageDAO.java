@@ -28,7 +28,6 @@ public class MessageDAO {
             // setting long with time posted by using getter method in Message class
             preparedStatement.setLong(3, msg.getTime_posted_epoch());
             
-
             preparedStatement.executeUpdate();
             // returning the message primary key
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
@@ -43,6 +42,8 @@ public class MessageDAO {
         }
         return null;
     }
+
+
 
 
 
@@ -115,6 +116,7 @@ public class MessageDAO {
 
 
 
+
     // this method deletes a message by identifying the message via its ID
     // @param id a message ID
     public int deleteMessageById(int id){
@@ -133,14 +135,14 @@ public class MessageDAO {
 
             // return number of rows affected ie messages deleted
             return rowsAffected;
-            
-            
+               
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
         // if no message deleted, return zero
         return 0;
     }
+
 
 
 
@@ -167,7 +169,6 @@ public class MessageDAO {
             // return number of rows affected ie messages updated
             return rowsAffected;
             
-            
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -178,6 +179,7 @@ public class MessageDAO {
 
 
 
+    
 
     // this method retrieves all messages from the message table by a particular user
     //@return all messages from a user's ID

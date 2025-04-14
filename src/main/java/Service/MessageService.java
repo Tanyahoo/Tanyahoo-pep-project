@@ -88,6 +88,7 @@ public class MessageService {
 
 
 
+
     /* method to update message by id
      * first checks if message exists, checks conditions of updated message
      * @return message object that has been updated
@@ -128,10 +129,10 @@ public class MessageService {
 
     
 
+
+
       /**
-     * method to retrieve a List containing all messages departing from a particular user
-     * some other city. You could use the flightDAO.getAllFlightsFromCityToCity method.
-     *
+     * method to retrieve a List containing all messages from a particular user
      * @param user_id the id of the user
      * @return all messages from the user
      */
@@ -139,10 +140,6 @@ public class MessageService {
         return msgDao.getAllMessagesByUserId(user_id);
         //return null;
     }
-
-
-
-
 
 
 }
