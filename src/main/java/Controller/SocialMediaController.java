@@ -41,6 +41,7 @@ public class SocialMediaController {
         // calls method on login path
         app.post("/login", this::loginHandler);
         app.post("/messages", this::createMessageHandler);
+        app.get("/messages", this::getAllMessagesHandler);
         //app.start(8080);
 
         return app;
@@ -49,13 +50,9 @@ public class SocialMediaController {
    
 
      /**
-     * Handler to post a new account to database.
-     * The Jackson ObjectMapper will automatically convert the JSON of the POST request into an Account object.
-     * If UserAccountService returns a null account (meaning posting an Account was unsuccessful), the API will return a 400
-     * message (client error). There is no need to change anything in this method.
-     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
-     *            be available to this method automatically thanks to the app.post method.
-     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
+     * Handler to post a new account to database
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
     private void postAccountHandler(Context ctx) {
         // use context object to turn request body into account object
@@ -68,6 +65,8 @@ public class SocialMediaController {
             ctx.status(400);
         }
     }
+
+
 
      /**
      * Handler to verify login with username and password
@@ -92,11 +91,9 @@ public class SocialMediaController {
 
 
 
+
     /**
-     * Handler to post a new message.
-     * The Jackson ObjectMapper will automatically convert the JSON of the POST request into a Flight object.
-     * If flightService returns a null flight (meaning posting a flight was unsuccessful, the API will return a 400
-     * message (client error). There is no need to change anything in this method.
+     * Handler to post a new message
      * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
      *            be available to this method automatically thanks to the app.post method.
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
@@ -112,7 +109,15 @@ public class SocialMediaController {
         }
     }
 
- 
+    
+
+    
+    // Handler to retrieve all messages 
+    
+    private void getAllMessagesHandler(Context ctx){
+        // returns to client flights in json format
+        ctx.json(messageService.getAllMessages());
+    }
 
 
 
