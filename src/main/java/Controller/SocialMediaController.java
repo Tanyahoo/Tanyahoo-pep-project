@@ -44,6 +44,7 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
         app.patch("/messages/{message_id}", this::updateMessageByIdHandler);
+        //app.get("accounts/{account_id}/messages", this::getAllMessagesByUserIdHandler);
         //app.start(8080);
 
         return app;
@@ -181,6 +182,19 @@ public class SocialMediaController {
         }
 
     }
+
+
+    /**
+     * Handler to retrieve all messages from user id
+     * user id is retrieved from the path
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
+     */
+    private void getAllMessagesByUserIdHandler(Context ctx) {
+        ctx.json(messageService.getAllMessagesByUserId(ctx.pathParam("account_id")));
+    }
+
+
 
 
 

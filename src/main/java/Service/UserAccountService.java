@@ -46,38 +46,9 @@ public class UserAccountService {
         return newAccount;
     }
 
+     
 
-
-
-    /*method checks if login is valid by checking if there's an account with matching login details
-     *it calls method from UserAccountDAO that checks in database table if matching account object exists
-     *@return an account object if exists otherwise null
-     */
-
-   /*  public Account login(String username, String password) {
-        // check that param meet conditions
-        if (username == null || username.trim().isEmpty() || password == null || password.length() < 4) {
-             
-          return null;
-        // throw new IllegalArgumentException("Username and password must not be null.");
-        }
     
-        Account correctPassword = accDao.getAccountByPassword(password);
-        Account correctUsername = accDao.getAccountByUsername(username);
-
-        if (correctPassword == correctUsername){
-            return accDao.getAccountByUsernameAndPassword(username,password);
-        }
-        // call UserAccountDAO class method to check if account exists with matching username and password
-        Account acc = accDao.getAccountByUsernameAndPassword(username, password);
-        // if account is null, return null
-        if (acc == null) {
-            return null;
-        }
-        // if successful return Account object matching username and password
-        return acc; 
-    }
-*/
 public Account login(String username, String password) {
     // Check that parameters meet conditions
     if (username == null || username.trim().isEmpty() || password == null || password.length() < 4) {

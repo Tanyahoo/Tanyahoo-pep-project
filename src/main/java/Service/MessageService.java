@@ -127,4 +127,22 @@ public class MessageService {
      }
 
     
+
+      /**
+     * method to retrieve a List containing all messages departing from a particular user
+     * some other city. You could use the flightDAO.getAllFlightsFromCityToCity method.
+     *
+     * @param user_id the id of the user
+     * @return all messages from the user
+     */
+    public List<Message> getAllMessagesByUserId(int user_id ) {
+        return msgDao.getAllMessagesByUserId(user_id);
+        //return null;
+    }
+
+
+
+
+
+
 }
