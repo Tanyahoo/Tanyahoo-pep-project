@@ -37,11 +37,13 @@ public class MessageService {
 
         // check if message is not empty or over 255 chars
         if (msgTxt == null || msgTxt.trim().isEmpty() || msgTxt.length() > 255) {
-            throw new IllegalArgumentException("Message cannot empty or over 255 characters long!");
+            return null;
+           // throw new IllegalArgumentException("Message cannot empty or over 255 characters long!");
          }
         // check if user exists
         if (user == 0) {
-            throw new IllegalArgumentException("User not found!");
+            return null;
+           // throw new IllegalArgumentException("User not found!");
         }
         // return the message after calling the MessageDAO class method
         Message message = msgDao.createMessage(mess);

@@ -40,19 +40,13 @@ public class SocialMediaController {
         app.post("/register", this::postAccountHandler);
         // calls method on login path
         app.post("/login", this::loginHandler);
+        app.post("/messages", this::createMessageHandler);
         //app.start(8080);
 
         return app;
     }
 
-    /**
-     * This is an example handler for an example endpoint.
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
-     */
-   // private void exampleHandler(Context context) {
-   //     context.json("sample text");
-   // }
-
+   
 
      /**
      * Handler to post a new account to database.
@@ -64,6 +58,7 @@ public class SocialMediaController {
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
      */
     private void postAccountHandler(Context ctx) {
+        // use context object to turn request body into account object
         Account account = ctx.bodyAsClass(Account.class);
         Account addedAccount = accountService.createAccount(account);
     
@@ -75,7 +70,7 @@ public class SocialMediaController {
     }
 
      /**
-     * 
+     * Handler to verify login with username and password
      * @param ctx the context object handles information HTTP requests and generates responses within Javalin, it will
      *            be available to this method automatically thanks to the app.post method.
      */
@@ -97,24 +92,27 @@ public class SocialMediaController {
 
 
 
-
-
- /* 
-    private void updateAccountHandler(Context ctx) throws JsonProcessingException {
+    /**
+     * Handler to post a new message.
+     * The Jackson ObjectMapper will automatically convert the JSON of the POST request into a Flight object.
+     * If flightService returns a null flight (meaning posting a flight was unsuccessful, the API will return a 400
+     * message (client error). There is no need to change anything in this method.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.post method.
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object.
+     */
+    private void createMessageHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Flight flight = mapper.readValue(ctx.body(), Flight.class);
-        int flight_id = Integer.parseInt(ctx.pathParam("flight_id"));
-        Flight updatedFlight = flightService.updateFlight(flight_id, flight);
-        System.out.println(updatedFlight);
-        if(updatedFlight == null){
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message addedMessage = messageService.addMessage(message);
+        if(addedMessage == null){
             ctx.status(400);
         }else{
-            ctx.json(mapper.writeValueAsString(updatedFlight));
+            ctx.json(mapper.writeValueAsString(addedMessage));
         }
-
     }
 
-*/
+ 
 
 
 
